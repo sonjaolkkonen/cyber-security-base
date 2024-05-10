@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Choice, Question
 
@@ -42,6 +43,7 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
 #@login_required(login_url="/polls/login/")
+@csrf_exempt
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -60,6 +62,7 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -71,6 +74,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'polls/register.html', {'form': form})
 
+@csrf_exempt
 def login_(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -87,6 +91,7 @@ def login_(request):
         form = AuthenticationForm()
     return render(request, 'polls/login.html', {'form': form})
 
+@csrf_exempt
 def logout_(request):
     if request.method == 'POST':
         logout(request)
