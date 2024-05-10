@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from .models import Choice, Question
 
@@ -66,4 +66,25 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'polls/register.html', {'form': form})
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect('polls:index')
+
+        else:
+            form = AuthenticationForm()
+        return render(request, 'polls/login.html', {'form':form})
+    
+def logout_(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('polls:index')
 
