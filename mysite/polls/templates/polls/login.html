@@ -1,8 +1,10 @@
+{% extends 'polls/layout.html' %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Login</title>
   </head>
+  {% block content %}
   <body>
     <h2>Login</h2>
     <form method="post">
@@ -11,4 +13,5 @@
         <button type="submit">Login</button>
     </form>
   </body>
+  {% endblock %}
 </html>
