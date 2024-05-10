@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from .models import Choice, Question
 
+#logger = logging.getLogger('polls')
+
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
