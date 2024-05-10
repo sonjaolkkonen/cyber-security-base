@@ -1,9 +1,11 @@
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Choice, Question
 
@@ -53,3 +55,15 @@ def vote(request, question_id):
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('polls:index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'polls/register.html', {'form': form})
+
