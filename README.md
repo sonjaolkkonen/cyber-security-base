@@ -27,4 +27,4 @@ Flaw in source code:
 This application has no logging features. However, without logging and monitoring, breaches cannot be detected. 
 
 **How to fix:**
-The flaw can be fixed by uncommenting the above mentioned flaws. Once this is done, a logger is configured in ```mysite/settings.py``` file and it is used to log every login and logout. Logs are saved in ```mysite/logs/debug.bug``` directory. 
+The flaw can be fixed by uncommenting the above mentioned lines. Once this is done, a logger is configured in ```mysite/settings.py``` file and it is used to log every login and logout. Logs are saved in ```mysite/logs/debug.bug``` directory. 
