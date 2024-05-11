@@ -97,4 +97,5 @@ def logout_(request):
         logout(request)
         #logger.info(f'{request.user.get_username()} logged out')
         return redirect('polls:index')
+    #return redirect('polls:index')
 
