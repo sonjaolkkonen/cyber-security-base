@@ -52,3 +52,15 @@ This application doesn't have any CSRF protection. Cross-site request forgery (C
 - ```layout.html``` line [12](https://github.com/sonjaolkkonen/cyber-security-base/blob/ac469be3a39a2710d9d6b5ac42e0e16f6c1bd459/mysite/polls/templates/polls/layout.html#L12)
 - ```login.html``` line [11](https://github.com/sonjaolkkonen/cyber-security-base/blob/ac469be3a39a2710d9d6b5ac42e0e16f6c1bd459/mysite/polls/templates/polls/login.html#L11)
 - ```register.html``` line [8](https://github.com/sonjaolkkonen/cyber-security-base/blob/ac469be3a39a2710d9d6b5ac42e0e16f6c1bd459/mysite/polls/templates/polls/register.html#L8)
+
+## FLAW 5: [Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
+Flaw in source code [here](https://github.com/sonjaolkkonen/cyber-security-base/blob/7e1f57c342b8ce780c172923e2916ad6c1683696/mysite/mysite/settings.py#L26).
+
+This application has a security configuration error in the server settings. Variable DEBUG is set to True even though it should always be set to False when in production. If there is some unhandled error in the source code and an error occurs, view with detailed error message is returned to the user. This can give the attacker more information how to breach the application. 
+
+**How to produce:** When not logged in, navigate to http://127.0.0.1:8000/polls/logout. The server will return a page with detailed information about the application since the DEBUG variable is set to True and user is not logged in as well as the GET request is not handled in the [logout function](https://github.com/sonjaolkkonen/cyber-security-base/blob/1c883c27c32f732239f27dffcb8a439f9a1a2163/mysite/polls/views.py#L95). 
+
+**How to fix:** The flaw can be fixed by performing following actions:
+- Variable [DEBUG](https://github.com/sonjaolkkonen/cyber-security-base/blob/1c883c27c32f732239f27dffcb8a439f9a1a2163/mysite/mysite/settings.py#L26) needs to be set to False
+- When running the application locally, "127.0.0.1" needs to be added to list [ALLOWED_HOSTS](https://github.com/sonjaolkkonen/cyber-security-base/blob/1c883c27c32f732239f27dffcb8a439f9a1a2163/mysite/mysite/settings.py#L28)
+- Uncomment [this](https://github.com/sonjaolkkonen/cyber-security-base/blob/1c883c27c32f732239f27dffcb8a439f9a1a2163/mysite/polls/views.py#L100) line so that if anything other than POST request is done, the user is redirected to the index page.
