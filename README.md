@@ -18,7 +18,7 @@ Go to http://127.0.0.1:8000/polls or http://127.0.0.1:8000/admin in your browser
 ## FLAW 1: [Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
 Flaw in source code [here](https://github.com/sonjaolkkonen/cyber-security-base/blob/141041ed67fce1d228f8e08e0fe2ed44dc53c264/mysite/mysite/settings.py#L88).
 
-This application has authentication weakness since when creating the user (regular or admin user), the application permits using weak or well-known passwords such as "Password1" or "admin/admin". 
+This application has authentication weakness since when creating the user (regular or admin user), the application permits using weak or well-known passwords such as "Password1" or "admin/admin". Ineffective user authentication and identification mechanisms can lead to unauthorized access and data breaches. It's crucial to address these failures to ensure the security and integrity of user data and sensitive information, protecting both users and organizations from potential harm and legal ramifications.
 
 **Hot to produce:** Create a superuser "admin" with a password "admin" by running: 
 
@@ -39,7 +39,7 @@ Flaw in source code:
 - ```settings.py``` lines [126-154](https://github.com/sonjaolkkonen/cyber-security-base/blob/e1b3bb3dd5b6b14a4f02544e6957d037c7b3f713/mysite/mysite/settings.py#L126)
 - ```views.py``` lines [13](https://github.com/sonjaolkkonen/cyber-security-base/blob/e1b3bb3dd5b6b14a4f02544e6957d037c7b3f713/mysite/polls/views.py#L13), [80](https://github.com/sonjaolkkonen/cyber-security-base/blob/e1b3bb3dd5b6b14a4f02544e6957d037c7b3f713/mysite/polls/views.py#L80) and [92](https://github.com/sonjaolkkonen/cyber-security-base/blob/e1b3bb3dd5b6b14a4f02544e6957d037c7b3f713/mysite/polls/views.py#L92)
 
-This application has no logging features. However, without logging and monitoring, breaches cannot be detected. 
+This application has no logging and monitoring. The absence or inadequacy of logging and monitoring mechanisms leaves applications vulnerable to security breaches and undetected attacks. Proper logging and monitoring are essential for identifying suspicious activities, tracking security incidents, and responding promptly to threats, enhancing overall cybersecurity and mitigating risks effectively.
 
 **How to fix:**
 The flaw can be fixed by uncommenting the above mentioned lines. Once this is done, a logger is configured in ```mysite/settings.py``` file and it is used to log every login and logout. Logs are saved in ```mysite/logs/debug.bug``` directory. 
@@ -47,11 +47,11 @@ The flaw can be fixed by uncommenting the above mentioned lines. Once this is do
 ## FLAW 3: [Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 Flaw in source code [here](https://github.com/sonjaolkkonen/cyber-security-base/blob/cd6cdb1b7aa6dca76744ab189531c93f92b9977e/mysite/polls/views.py#L44).
 
-This application has a flaw in access control. Voting of the polls should be enabled only for registered users which are logged in but now due to the flaw in access control, also non registered users can vote polls.
+This application has a flaw in access control. Voting of the polls should be enabled only for registered users which are logged in but now due to the flaw in access control, also non registered users can vote polls. Insufficient access controls allows unauthorized users to access sensitive functionality or data. Broken access controls can result in unauthorized data breaches, privilege escalation, and exposure of confidential information. It's critical to address these vulnerabilities to enforce proper access restrictions and protect the confidentiality, integrity, and availability of sensitive resources within the application.
 
-**How to produce:** Navigate to http://127.0.0.1:8000/admin/ and login as admin user. Create a new poll. Once the new poll is created, logout. Voting is done by clicking the poll in question. Once the new poll is created, logout and you'll see that the polls are no longer clickable and thus, logged out users can't vote for the polls. The clickable links are visible only for logged in users, which is checked in template ```index.html``` in [this line](https://github.com/sonjaolkkonen/cyber-security-base/blob/cd6cdb1b7aa6dca76744ab189531c93f92b9977e/mysite/polls/templates/polls/index.html#L10). 
+**How to produce:** Navigate to http://127.0.0.1:8000/admin/ and login as admin user. Create a new poll. Voting is done by clicking the poll in question. Once the new poll is created, logout and you'll see that the polls are no longer clickable and thus, logged out users can't vote for the polls. The clickable links are visible only for logged in users, which is checked in template ```index.html``` in [this line](https://github.com/sonjaolkkonen/cyber-security-base/blob/cd6cdb1b7aa6dca76744ab189531c93f92b9977e/mysite/polls/templates/polls/index.html#L10). 
 
-However, this check is not enough as it's not validated in the backend whether the user is logged in or not. User can navigate to the voting page of the poll even when not logged in by typing for example http://127.0.0.1:8000/polls/1, where "1" is indicating which poll is in question. 
+However, this check is not enough as it's not validated in the backend whether the user is logged in or not. User can navigate to the voting page of the poll and vote polls even when not logged in by typing for example http://127.0.0.1:8000/polls/1, where "1" is indicating which poll is in question. 
 
 **How to fix:** The flaw can be fixed by validating whether the user is logged in or not also in the backend. This can be done by uncommenting [this line](https://github.com/sonjaolkkonen/cyber-security-base/blob/cd6cdb1b7aa6dca76744ab189531c93f92b9977e/mysite/polls/views.py#L44).
 
@@ -71,7 +71,7 @@ This application doesn't have any CSRF protection. Cross-site request forgery (C
 ## FLAW 5: [Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
 Flaw in source code [here](https://github.com/sonjaolkkonen/cyber-security-base/blob/7e1f57c342b8ce780c172923e2916ad6c1683696/mysite/mysite/settings.py#L26).
 
-This application has a security configuration error in the server settings. Variable DEBUG is set to True even though it should always be set to False when in production. If there is some unhandled error in the source code and an error occurs, view with detailed error message is returned to the user. This can give the attacker more information how to breach the application. 
+This application has a security configuration error in the server settings. Variable DEBUG is set to True even though it should always be set to False when in production. If there is some unhandled error in the source code and an error occurs, view with detailed error message is returned to the user. This can give the attacker more information how to breach the application. Security misconfigurations can lead to various risks, including unauthorized access, data exposure, and system compromise. Addressing these misconfigurations is essential for strengthening the overall security posture of applications and infrastructure, reducing the likelihood of successful cyber attacks and safeguarding sensitive information.
 
 **How to produce:** When not logged in, navigate to http://127.0.0.1:8000/polls/logout. The server will return a page with detailed information about the application since the DEBUG variable is set to True and user is not logged in as well as the GET request is not handled in the [logout function](https://github.com/sonjaolkkonen/cyber-security-base/blob/1c883c27c32f732239f27dffcb8a439f9a1a2163/mysite/polls/views.py#L95). 
 
