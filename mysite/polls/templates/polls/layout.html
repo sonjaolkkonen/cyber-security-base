@@ -9,7 +9,7 @@
                 {% if user.is_authenticated %}
                 <li>
                     <form class="logout-link" action="{% url 'polls:logout' %}" method="post">
-                        {% csrf_token %}
+                        <!-- this line should be uncommented {% csrf_token %} -->
                         <button type="submit">Logout</button>
                     </form>
                 </li>
