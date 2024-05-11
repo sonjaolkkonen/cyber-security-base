@@ -1,5 +1,20 @@
 # Cyber Security Base Project 1
 
+## Polls app
+
+Link to the GitHub repository: https://github.com/sonjaolkkonen/cyber-security-base
+
+With this polls app users can add polls and vote on polls. There's two types of users, admins and regular users and currently only admins can create polls. Moreover, only registered users should be able to vote on polls. 
+The app contains five security flaws from the [OWASP Top Ten list](https://owasp.org/www-project-top-ten/). 
+
+## Installation
+1. clone repository to your device:
+   ```git clone git@github.com:sonjaolkkonen/cyber-security-base.git```
+2.  make necessary migrations: ```python3 manage.py migrate```
+3.  start the server: ```python3 manage.py runserver```
+
+Go to http://127.0.0.1:8000/polls or http://127.0.0.1:8000/admin in your browser to access the application. 
+
 ## FLAW 1: [Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
 Flaw in source code [here](https://github.com/sonjaolkkonen/cyber-security-base/blob/141041ed67fce1d228f8e08e0fe2ed44dc53c264/mysite/mysite/settings.py#L88).
 
